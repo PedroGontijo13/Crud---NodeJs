@@ -1,12 +1,16 @@
 import Sequelize from "sequelize";
 import DataTypes from "sequelize";
+import dotenv from 'dotenv'
 
-const sequelize = new Sequelize("sys", "root", "euamoskate", {
+dotenv.config()
+
+const sequelize = new Sequelize("sys", "root", `${process.env.DB_PASSWORD}`, {
   host: "localhost",
   dialect: "mysql",
 });
 
-sequelize.authenticate()
+sequelize
+  .authenticate()
   .then((user) => {
     console.log("Connection OK");
   })
@@ -16,10 +20,9 @@ sequelize.authenticate()
 
 const User = sequelize.define("users", {
   id: {
-    type: DataTypes.INTEGER,
+    type: Sequelize.UUID,
+    defaultValue: Sequelize.UUIDV4,
     primaryKey: true,
-    allowNull: false,
-    autoIcrement: true,
   },
   username: {
     type: DataTypes.STRING,
