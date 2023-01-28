@@ -1,0 +1,13 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+li {
+    margin: 20px;
+}
+
+.form-button {
+  margin: 10px;
+}
