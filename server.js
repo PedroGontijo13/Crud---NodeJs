@@ -2,6 +2,7 @@ import bodyParser from "body-parser";
 import express from "express";
 import cors from "cors";
 import User from "./models/user.models.js";
+import Comments from "./models/comment.model.js";
 
 const app = express();
 
@@ -28,16 +29,33 @@ app.post("/create", (req, res) => {
     email: req.body.email,
     password: req.body.password,
   })
-    .then((user) => {
-      res.redirect("./create");
+    .then(() => {
+      res.redirect("/create");
     })
     .catch((err) => {
       console.error(err);
     });
 });
 
-app.get("/login", (req, res) => {
-  res.render("../views/pages/login");
+//Comment -> Post the comment on the database and show on the web page
+
+app.get("/comments", (req, res) => {
+  Comments.findAll().then((comments) => {
+    const commentsArray = comments.map((comment) => comment.dataValues);
+    res.render("../views/pages/comment", { Comments: commentsArray });
+  });
+});
+
+app.post("/comments", (req, res) => {
+  Comments.create({
+    username: req.body.username,
+    comment: req.body.comment,
+  }).then(() => {
+    Comments.findAll().then((comments) => {
+      const commentsArray = comments.map((comment) => comment.dataValues);
+      res.render("../views/pages/comment", { Comments: commentsArray });
+    });
+  });
 });
 
 //Read method -> Show the users in the page
@@ -82,7 +100,7 @@ app.post("/update", (req, res) => {
 //Delete methods
 
 app.get("/delete", (req, res) => {
-  res.render('../views/pages/delete')
+  res.render("../views/pages/delete");
 });
 
 app.post("/delete", (req, res) => {
@@ -91,7 +109,7 @@ app.post("/delete", (req, res) => {
   })
     .then(() => {
       console.log("Deleted");
-      res.render('../views/pages/delete')
+      res.render("../views/pages/delete");
     })
     .catch((err) => {
       console.log("Error: ", err);

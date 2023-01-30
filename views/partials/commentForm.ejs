@@ -1,23 +1,25 @@
-<form action="/" method="post">
+<form action="/comments" method="post">
   <div class="form-floating mb-3">
     <input
       type="name"
       class="form-control"
       id="floatingName"
       placeholder="name"
+      name="username"
     />
     <label for="floatingName">Name</label>
   </div>
   <div class="form-floating">
     <input
-      type="password"
+      type="text"
       class="form-control"
-      id="floatingPassword"
-      placeholder="Password"
+      id="floatingcomment"
+      placeholder="comment"
+      name="comment"
     />
-    <label for="floatingPassword">Password</label>
+    <label for="floatingcomment">Comment</label>
   </div>
   <div class="form-button">
-    <button type="button" class="btn btn-primary">Primary</button>
+    <button type="submit" class="btn btn-primary">Primary</button>
   </div>
 </form>
