@@ -20,8 +20,12 @@ app.post("/create", (req, res) => {
     email: req.body.email,
     password: req.body.password,
   })
-
-  res.render('../views/pages/create')
+    .then((user) => {
+      res.redirect("./create");
+    })
+    .catch((err) => {
+      console.error(err);
+    });
 });
 
 app.get("/login", (req, res) => {
@@ -29,7 +33,30 @@ app.get("/login", (req, res) => {
 });
 
 app.get("/read", (req, res) => {
-  res.render("../views/pages/read");
+  User.findAll().then((users) => {
+    const userArray = users.map((user) => user.dataValues);
+    console.log(userArray);
+    res.render("../views/pages/read", { users: userArray });
+  });
+});
+
+app.post("/update", (req, res) => {
+  User.update(
+    {
+      username: req.body.username,
+      email: req.body.email,
+      password: req.body.password,
+    },
+    {
+      where: { id: req.body.id },
+    }
+  ).then(() => {
+    res.render("../views/pages/update");
+  });
+});
+
+app.get("/update", (req, res) => {
+  res.render("../views/pages/update");
 });
 
 app.get("/", (req, res) => {

@@ -1,12 +1,15 @@
 import Sequelize from "sequelize";
 import DataTypes from "sequelize";
-import dotenv from 'dotenv'
+import dotenv from "dotenv";
 
-dotenv.config()
+dotenv.config();
 
 const sequelize = new Sequelize("sys", "root", `${process.env.DB_PASSWORD}`, {
   host: "localhost",
   dialect: "mysql",
+  define: {
+    timestamps: false,
+  },
 });
 
 sequelize
